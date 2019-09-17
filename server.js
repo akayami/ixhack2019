@@ -10,7 +10,7 @@ app.use(express.static('public'))
 //app.get('/', (req, res) => res.send('Hello World!'))
 
 
-let nl = async(text) => {
+let nl = async (text) => {
 	// Imports the Google Cloud client library
 	const language = require('@google-cloud/language');
 
@@ -27,7 +27,15 @@ let nl = async(text) => {
 
 	console.log(document);
 
-	return await client.annotateText({document: document, features: {}});
+	return await client.annotateText({
+		document: document, features: {
+			"extractSyntax": true,
+			"extractEntities": true,
+			"extractDocumentSentiment": true,
+			"extractEntitySentiment": true,
+			"classifyText": false
+		}
+	});
 
 	// Detects the sentiment of the text
 // 	const [sentiments] = await client.analyzeSentiment({document: document});
@@ -70,7 +78,8 @@ app.post('/nl', async (req, res) => {
 		res.json(r);
 	}).catch((e) => {
 		console.log(e.message);
-		res.send(e.message).statusCode(500).end();
+		res.status(500).send(e.message).end();
+		//res.send(e.message).statusCode(500).end();
 	})
 });
 
