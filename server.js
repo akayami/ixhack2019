@@ -27,22 +27,24 @@ let nl = async(text) => {
 
 	console.log(document);
 
-	// Detects the sentiment of the text
-	const [sentiments] = await client.analyzeSentiment({document: document});
-	const [entities] = await client.analyzeEntities({document});
-	const [syntax] = await client.analyzeSyntax({document});
+	return await client.annotateText({document: document, features: {}});
 
-// Detects sentiment of entities in the document
-	const [sent_of_entities] = await client.analyzeEntitySentiment({document});
-	const e = sent_of_entities.entities;
+	// Detects the sentiment of the text
+// 	const [sentiments] = await client.analyzeSentiment({document: document});
+// 	const [entities] = await client.analyzeEntities({document});
+// 	const [syntax] = await client.analyzeSyntax({document});
+//
+// // Detects sentiment of entities in the document
+// 	const [sent_of_entities] = await client.analyzeEntitySentiment({document});
+// 	const e = sent_of_entities.entities;
 
 	//return result;
-	return {
-		sentiments: sentiments,
-		entities: entities,
-		syntax: syntax,
-		entity_sentiment: e
-	}
+	// return {
+	// 	sentiments: sentiments,
+	// 	entities: entities,
+	// 	syntax: syntax,
+	// 	entity_sentiment: e
+	// }
 	// console.log(result);
 	// const sentiment = result.documentSentiment;
 	//

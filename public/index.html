@@ -19,15 +19,15 @@
 <div id="output" style="color: red"></div>
 <!--<div>-->
 
-<!--	<button onclick="recognition.start()">Start</button>-->
-<!--	<button onclick="recognition.stop()">Stop</button>-->
+	<button onclick="recognition.start()">Start</button>
+	<button onclick="recognition.stop()">Stop</button>
 <!--	<p></p>-->
 <!--</div>-->
 
 <script>
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
-	recognition.interimResults = true;
+	recognition.interimResults = false;
 	var output = document.getElementById('output');
 	recognition.onresult = function (event) {
 		var o = [];
@@ -50,7 +50,7 @@
 		});
 	};
 
-	recognition.start();
+	//recognition.start();
 
 	function naturalLanguage(text, cb) {
 		var xhr = new XMLHttpRequest();
