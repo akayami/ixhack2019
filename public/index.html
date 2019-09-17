@@ -21,11 +21,62 @@
 		for(var i = 0; i < event.results.length; i++) {
 			o.push(event.results[i][0].transcript);
 		}
-		let p = o.join('.');
+		// let p = o.join('.');
+		// console.log(p);
 
-		console.log(p);
-		output.innerText = p;
+
+		var part = o.pop();
+		output.innerText = part;
+
+		naturalLanguage(part, function (e, d) {
+			if(e) {
+				console.error(e);
+			} else {
+				console.log(d);
+			}
+		});
 	};
+
+	//
+	// var xhr = new XMLHttpRequest();
+	// xhr.open("POST", "/nl", true);
+	// xhr.setRequestHeader('Content-Type', 'application/json');
+	// xhr.onreadystatechange = function () {
+	// 	if (this.readyState != 4) return;
+	//
+	// 	if (this.status == 200) {
+	// 		var data = JSON.parse(this.responseText);
+	// 		console.log(data);
+	// 		// we get the returned data
+	// 	}
+	// 	// end of state change: it can be after some time (async)
+	// };
+	// xhr.send(JSON.stringify({
+	// 	text: "Hello world !"
+	// }));
+
+	function naturalLanguage(text, cb) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/nl", true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onreadystatechange = function () {
+			if (this.readyState != 4) return;
+
+			if (this.status == 200) {
+				var data = JSON.parse(this.responseText);
+				cb(null, data);
+				//console.log(data);
+				// we get the returned data
+			} else {
+				cb(new Error('Error occured'));
+			}
+			// end of state change: it can be after some time (async)
+		};
+		xhr.send(JSON.stringify({
+			text: text
+		}));
+	}
+
 </script>
 </body>
 </html>
