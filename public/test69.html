@@ -1,0 +1,246 @@
+<html>
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+
+    <!--	<link rel="stylesheet" type="text/css" href="metro.css" media="screen" />-->
+    <!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>-->
+    <!--	<script src="metro.js"></script>-->
+</head>
+
+<style>
+    .dropbtn {
+        background-color: #000000;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropbtn:hover,
+    .dropbtn:focus {
+        background-color: #000000;
+    }
+
+    #myInput {
+        box-sizing: border-box;
+        background-image: url('searchicon.png');
+        background-position: 14px 12px;
+        background-repeat: no-repeat;
+        font-size: 16px;
+        padding: 14px 20px 12px 45px;
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+
+    #myInput:focus {
+        outline: 3px solid #ddd;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f6f6f6;
+        min-width: 230px;
+        overflow: auto;
+        border: 1px solid #ddd;
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown a:hover {
+        background-color: #ddd;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<body>
+    <h1>Imagefy</h1>
+
+    <div id="output" style="color: red"></div>
+    <!--<div>-->
+
+    <button onclick="recognition.start()">Start</button>
+    <button onclick="recognition.stop()">Stop</button>
+    <!--	<p></p>-->
+    <!--</div>-->
+
+    <div class="grid" data-group-title="">
+        <div class="tiles-grid tiles-group size-8" data-group-title="">
+            <div data-role="tile" data-size="medium" class="col-1 row-1" data-effect="animate-slide-right">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="medium" class="col-3 row-1" data-effect="animate-slide-up">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="medium" class="col-1 row-3" data-effect="animate-slide-down">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="medium" class="col-3 row-3" data-effect="animate-slide-right">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="large" class="col-5 row-1" data-effect="animate-slide-down">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="wide" class="col-9 row-1" data-effect="animate-slide-left">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="wide" class="col-9 row-3" data-effect="animate-slide-left">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+            <div data-role="tile" data-size="large" col="col-13 row-1" data-effect="animate-slide-up">
+                <div class="slide"><img src="windmills-2630391_1920.jpg"></div>
+                <div class="slide"><img
+                        src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
+                </div>
+                <div class="slide"><img
+                        src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
+            </div>
+        </div>
+
+        <!-- Dropdown language menu -->
+        <div class="dropdown">
+            <button onclick="myFunction()" class="dropbtn">Language</button>
+            <div id="myDropdown" class="dropdown-content">
+                <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+                <a href="#en">English</a>
+                <a href="#fr">French</a>
+            </div>
+        </div>
+
+        <!-- Dropdown menu scripts -->
+        <script>
+            function myFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            function filterFunction() {
+                var input, filter, ul, li, a, i;
+                input = document.getElementById("myInput");
+                filter = input.value.toUpperCase();
+                div = document.getElementById("myDropdown");
+                a = div.getElementsByTagName("a");
+                for (i = 0; i < a.length; i++) {
+                    txtValue = a[i].textContent || a[i].innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        a[i].style.display = "";
+                    } else {
+                        a[i].style.display = "none";
+                    }
+                }
+            }
+        </script>
+
+        <script>
+            var recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = false;
+            var output = document.getElementById('output');
+            recognition.onresult = function (event) {
+                var o = [];
+                for (var i = 0; i < event.results.length; i++) {
+                    o.push(event.results[i][0].transcript);
+                }
+                // let p = o.join('.');
+                // console.log(p);
+
+
+                var part = o.pop();
+                output.innerText = part;
+
+                naturalLanguage(part, function (e, d) {
+                    if (e) {
+                        console.error(e);
+                    } else {
+                        console.log(d);
+                    }
+                });
+            };
+
+            //recognition.start();
+
+            function naturalLanguage(text, cb) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/nl", true);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.onreadystatechange = function () {
+                    if (this.readyState != 4) return;
+
+                    if (this.status == 200) {
+                        var data = JSON.parse(this.responseText);
+                        cb(null, data);
+                        //console.log(data);
+                        // we get the returned data
+                    } else {
+                        cb(new Error('Error occured'));
+                    }
+                    // end of state change: it can be after some time (async)
+                };
+                xhr.send(JSON.stringify({
+                    text: text
+                }));
+            }
+        </script>
+
+        <!-- jQuery first, then Metro UI JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+
+</body>
+
+</html>
