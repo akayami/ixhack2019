@@ -1,0 +1,31 @@
+<html>
+<head>
+<!--	<link rel="stylesheet" type="text/css" href="metro.css" media="screen" />-->
+<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>-->
+<!--	<script src="metro.js"></script>-->
+</head>
+<body>
+<h1>Hello</h1>
+
+<div id="output" style="color: red"></div>
+<button onclick="recognition.start()">Start</button>
+<button onclick="recognition.stop()">Stop</button>
+
+<script>
+	var recognition = new webkitSpeechRecognition();
+	recognition.continuous = true;
+
+	var output = document.getElementById('output');
+	recognition.onresult = function(event) {
+		var o = [];
+		for(var i = 0; i < event.results.length; i++) {
+			o.push(event.results[i][0].transcript);
+		}
+		let p = o.join('.');
+
+		console.log(p);
+		output.innerText = p;
+	};
+</script>
+</body>
+</html>
