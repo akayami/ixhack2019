@@ -25,7 +25,7 @@ let nl = async(text) => {
 		type: 'PLAIN_TEXT',
 	};
 
-//	console.log(document);
+	console.log(document);
 
 	// Detects the sentiment of the text
 	const [sentiments] = await client.analyzeSentiment({document: document});
