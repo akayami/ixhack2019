@@ -32,10 +32,15 @@ class Settings:
         elif "bing" in words[i+1]:
           self.source = "BING"
   def getSettings(self):
-    res = {}
-    res["locked_words"]=" ".join(self.locked_words)
-    res["language"]=self.language
-    res["source"]=self.source
-    res["layout"]=self.layout
-    res["text"]=self.text
+    res = []
+    #res.append("locked_words")
+    res.append(self.locked_words)
+    #res.append("language")
+    res.append(self.language)
+    #res.append("source")
+    res.append(self.source)
+    #res.append("layout")
+    res.append(self.layout)
+    #res("text")
+    res(self.text)
     return res
