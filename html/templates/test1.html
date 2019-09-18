@@ -35,8 +35,26 @@
     });
 
     socket.on('text', function (data) {
-    	console.log(data);
-    	document.getElementById('nouns').innerText = data;//.join(", ");
+		console.log(data);
+		document.getElementById('nouns').innerText = data;//.join(", ");
+  	});
+
+  	socket.on('pics', function (data) {
+		console.log(data);
+		//document.getElementById('nouns').innerText = data.join(", ");
+		//document.getElementById("tile1").src = data[0];
+
+		console.log(data.length)
+		var i;
+		for (i = 0; i < data.length; i++) {
+			var tileid = "tile"+i;
+			try {
+				document.getElementById(tileid).src = data[i] + "?" + new Date().getTime();;
+			}
+			catch(err) {}
+		}
+
+
   	});
 
 	var recognition = new webkitSpeechRecognition();
@@ -93,73 +111,28 @@
 	}
 </script>
 
-<div class="grid" data-group-title="">
-	<div class="tiles-grid tiles-group size-8" data-group-title="">
-		<div data-role="tile" data-size="medium" class="col-1 row-1" data-effect="animate-slide-right">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="medium" class="col-3 row-1" data-effect="animate-slide-up">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="medium" class="col-1 row-3" data-effect="animate-slide-down">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="medium" class="col-3 row-3" data-effect="animate-slide-right">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="large" class="col-5 row-1" data-effect="animate-slide-down">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="wide" class="col-9 row-1" data-effect="animate-slide-left">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="wide" class="col-9 row-3" data-effect="animate-slide-left">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
-		<div data-role="tile" data-size="large" col="col-13 row-1" data-effect="animate-slide-up">
-			<div class="slide"><img src="windmills-2630391_1920.jpg"></div>
-			<div class="slide"><img
-					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">
-			</div>
-			<div class="slide"><img
-					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>
-		</div>
+
+<!--	<div data-role="tile" data-size="wide" data-effect="image-set">-->
+<!--		<img id="tile0" src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg">-->
+<!--		<img id="tile1" src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg">-->
+<!--		<img id="tile2" src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg">-->
+<!--		<img id="tile3" src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg">-->
+<!--		<img id="tile4" src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg">-->
+<!--	</div>-->
+
+	<div class="tiles-grid">
+		<div data-role="tile" data-size="small"><img id="tile0"></div>
+		<div data-role="tile" data-size="small"><img id="tile1"></div>
+		<div data-role="tile" data-size="small" class="col-1 row-2"><img id="tile2"></div>
+		<div data-role="tile" data-size="small" class="col-2 row-2"><img id="tile3"></div>
+		<div data-role="tile" data-size="medium"><img id="tile4"></div>
+		<div data-role="tile" data-size="wide"><img id="tile5"></div>
+		<div data-role="tile" data-size="large"><img id="tile6"></div>
+		<div data-role="tile" data-size="medium"><img id="tile7"></div>
+		<div data-role="tile" data-size="medium"><img id="tile8"></div>
+		<div data-role="tile" data-size="wide"><img id="tile9"></div>
 	</div>
+
 
 	<!-- jQuery first, then Metro UI JS -->
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -168,3 +141,48 @@
 </body>
 
 </html>
+
+
+
+
+
+
+<!--<div class="grid" data-group-title="">-->
+<!--	<div class="tiles-grid tiles-group size-8" data-group-title="">-->
+<!--		<div data-role="tile" data-size="medium" class="col-1 row-1" data-effect="animate-slide-right">-->
+<!--			<div class="slide"><img id="tile1" src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">-->
+<!--			</div>-->
+<!--			<div class="slide"><img id="tile2" src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>-->
+<!--		</div>-->
+<!--		<div data-role="tile" data-size="medium" class="col-3 row-1" data-effect="animate-slide-up">-->
+<!--			<div class="slide"><img id="tile3"-->
+<!--					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">-->
+<!--			</div>-->
+<!--			<div class="slide"><img id="tile4"-->
+<!--					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>-->
+<!--		</div>-->
+<!--		<div data-role="tile" data-size="medium" class="col-1 row-3" data-effect="animate-slide-down">-->
+<!--			<div class="slide"><img id="tile5"-->
+<!--					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">-->
+<!--			</div>-->
+<!--			<div class="slide"><img id="tile6"-->
+<!--					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>-->
+<!--		</div>-->
+<!--		<div data-role="tile" data-size="medium" class="col-3 row-3" data-effect="animate-slide-right">-->
+<!--			<div class="slide"><img id="tile7"-->
+<!--					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">-->
+<!--			</div>-->
+<!--			<div class="slide"><img id="tile8"-->
+<!--					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>-->
+<!--		</div>-->
+<!--		<div data-role="tile" data-size="large" class="col-5 row-1" data-effect="animate-slide-down">-->
+<!--			<div class="slide"><img id="tile9"-->
+<!--					src="https://i.cbc.ca/1.4903758.1542137675!/fileImage/httpImage/image.jpg_gen/derivatives/16x9_780/a-kinderdijk-windmill.jpg">-->
+<!--			</div>-->
+<!--			<div class="slide"><img id="tile10"-->
+<!--					src="http://www.steinbachonline.com/images/community/mhv/2012-09-09-1-600x450.jpg"></div>-->
+<!--		</div>-->
+<!--		-->
+
+
+<!--	</div>-->
