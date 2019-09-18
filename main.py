@@ -7,6 +7,8 @@ import sys
 import timeit
 import urllib.request
 import json
+import requests
+import urllib.parse
 
 logger = getlogger(__name__)
 
@@ -19,8 +21,29 @@ flickr = FlickrAPI('c6a2c45591d4973ff525042472446ca2', '202ffe6f387ce29b', forma
 
 @app.route('/')
 def index():
-    return render_template('test1.html')
+    return render_template('test4.html')
 
+def query_pixabay(nouns):
+    if nouns:
+        q = 3
+        nNouns = len(nouns)
+        pics = []
+        for i in range(0,nNouns):
+            query = nouns[i]
+            url = 'https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&lang=en&orientation=horizontal&safesearch=true&per_page=' + str(q) + '&q=' + urllib.parse.quote(query)
+            response = requests.get(url)
+            results = response.json()
+
+            for j in range(0,q):
+                try:
+                    picture = results['hits'][j]
+                    pics.append(picture['webformatURL'])
+                    print(pics)
+                except Exception as ex:
+                    print(ex)
+                    pass
+
+        return pics
 
 @app.route('/test3')
 def test3():
@@ -32,7 +55,8 @@ def query_flickr(nouns):
         extras = 'url_c'
         query = " ".join(nouns)
         print("query= " + query)
-        max = 9
+
+        max = 26
         results = flickr.photos.search(text=query, per_page=max, extras=extras)
         pics = []
 
@@ -41,6 +65,7 @@ def query_flickr(nouns):
                 pics.append(results['photos']['photo'][i]['url_c'])
                 print(pics)
             except Exception as ex:
+                print(ex)
                 pass
         return pics
 
@@ -62,8 +87,8 @@ def query_pexels(nouns):
 
 @socketio.on('text')
 def handle_message(message):
-    # handle_message_noun_phrases(message)
-    handle_message_nouns(message)
+    handle_message_noun_phrases(message)
+    #handle_message_nouns(message)
 
 
 def handle_message_nouns(message):
@@ -75,8 +100,7 @@ def handle_message_nouns(message):
     socketio.emit('text', nouns)
 
     # pics = query_flickr(nouns)
-    pics = query_pexels(nouns)
-
+    pics = query_pixabay(nouns)
     if pics:
         socketio.emit('pics', pics)
 
@@ -101,7 +125,9 @@ def handle_message_noun_phrases(message):
     print(end_time - begin_time)
     sys.stdout.flush()
     socketio.emit('text', noun_phrases_list)
-
+    pics = query_pixabay(noun_phrases_list)
+    if pics:
+        socketio.emit('pics', pics)
 
 @socketio.on('json')
 def handle_json(json):
