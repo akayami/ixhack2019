@@ -1,6 +1,8 @@
 var elementCount = 0;
 var textVisible = true;
 
+var socket = io();
+
 $(document).ready(async function(){
 
 	var recognition = new webkitSpeechRecognition();
@@ -13,10 +15,16 @@ $(document).ready(async function(){
 			o.push(event.results[i][0].transcript);
 		}
 		var part = o.pop();
-		//console.log(part);
+		console.log(part);
+		socket.emit("text", {data: part});
 		generate(part);
 	};
 	recognition.start()
+	socket.on("word_array", function (arr) {
+	    //TODO : process word array
+        console.log(arr)
+    });
+
 });
 
 function randomIntFromInterval(min, max) { // min and max included
