@@ -23,6 +23,12 @@ $(document).ready(async function(){
 	socket.on("word_array", function (arr) {
 	    //TODO : process word array
         console.log(arr)
+	});
+	
+	socket.on("settings", function (settings) {
+        if (settings[0] === "false" || settings[0] === "off") {
+            changeTextMode(false);
+        }
     });
 
 });

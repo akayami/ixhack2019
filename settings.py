@@ -19,18 +19,18 @@ class Settings:
         self.locked_words.clear()
       elif "text" in words[i].lower():
         if "on" in words[i+1].lower():
-          self.text = "TRUE"
+          self.text = "true"
         elif "off" in words[i+1].lower():
-          self.text = "FALSE"
+          self.text = "false"
       elif "view" in words[i].lower():
         if "slide" in words[i+1]:
-          self.layout = "SLIDE"
+          self.layout = "slide"
         elif "static" in words[i+1]:
-          self.layout = "STATIC"
+          self.layout = "static"
         elif "flick" in words[i+1]:
-          self.source = "FLICKER"
+          self.source = "flicker"
         elif "bing" in words[i+1]:
-          self.source = "BING"
+          self.source = "bing"
   def getSettings(self):
     res = []
     #res.append("locked_words")
