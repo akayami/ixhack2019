@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <style type="text/css">
+        img {
+            max-width: auto;
+            max-height: 100%;
+            text-align: center
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Saira+Stencil+One&display=swap" rel="stylesheet">
+</head>
+<style>
+    h1 {
+        font-family: 'Saira Stencil One', cursive;
+    }
+
+</style>
+
+<body>
+<button onclick="recognition.start()">Start</button>
+<button onclick="recognition.stop()">Stop</button>
+
+<div id="output" style="color: red"></div>
+<div id="nouns" style="color: red"></div>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"
+        integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+
+
+<script>
+    var socket = io();
+    socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
+    });
+
+    socket.on('text', function (data) {
+		console.log(data);
+		document.getElementById('nouns').innerText = data.join(", ");
+  	});
+
+  	socket.on('pics', function (data) {
+		console.log(data);
+		//document.getElementById('nouns').innerText = data.join(", ");
+		//document.getElementById("tile1").src = data[0];
+
+		console.log(data.length)
+		var i;
+		for (i = 0; i < data.length; i++) {
+			var tileid = "testImage"+i;
+			try {
+				//document.getElementById(tileid).src = data[i] + "?" + new Date().getTime();
+				var imageDiv = document.getElementById(tileid);
+				imageDiv.innerHTML = imageDiv.innerHTML + "<div class=\"slide\"><img src=\"" + data[i] + "\"></div>";
+			}
+			catch(err) {}
+		}
+
+
+  	});
+
+	var recognition = new webkitSpeechRecognition();
+	recognition.continuous = true;
+	recognition.interimResults = false;
+	var output = document.getElementById('output');
+	recognition.onresult = function (event) {
+		var o = [];
+		for (var i = 0; i < event.results.length; i++) {
+			o.push(event.results[i][0].transcript);
+		}
+		// let p = o.join('.');
+		// console.log(p);
+
+
+		var part = o.pop();
+		output.innerText = part;
+
+		socket.emit('text', {data: part});
+
+		naturalLanguage(part, function (e, d) {
+			if (e) {
+				console.error(e);
+			} else {
+				console.log(d);
+			}
+		});
+	};
+
+	//recognition.start();
+
+	function naturalLanguage(text, cb) {
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "/nl", true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onreadystatechange = function () {
+			if (this.readyState != 4) return;
+
+			if (this.status == 200) {
+				var data = JSON.parse(this.responseText);
+				cb(null, data);
+				//console.log(data);
+				// we get the returned data
+			} else {
+				cb(new Error('Error occured'));
+			}
+			// end of state change: it can be after some time (async)
+		};
+		xhr.send(JSON.stringify({
+			text: text
+		}));
+	}
+</script>
+
+
+<div class="tiles-grid tiles-group size-8" data-group-title="">
+    <div id="testImage0" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
+    <div id="testImage1" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
+    <div id="testImage2" data-role="tile" data-size="large" data-effect="animate-slide-up"></div>
+    <div id="testImage3" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
+    <div id="testImage4" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
+    <div id="testImage5" data-role="tile" data-size="large" data-effect="animate-slide-up"></div>
+    <div id="testImage6" data-role="tile" data-size="large" data-effect="animate-slide-up"></div>
+    <div id="testImage7" data-role="tile" data-size="large" data-effect="animate-slide-up"></div>
+    <div id="testImage8" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
+    <div id="testImage9" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
+    <div id="testImage10" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
+    <div id="testImage11" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
+
+</div>
+
+<!--<script>-->
+<!--        function addToDom(picJSON) {-->
+<!--            console.log(picJSON)-->
+<!--            for (var i = 0; i < picJSON.hits.length; i++) {-->
+<!--                var element = Math.floor(i / 3).toString()-->
+<!--                var id = "testImage" + element-->
+<!--                console.log(id)-->
+<!--                var imageDiv = document.getElementById(id);-->
+<!--                imageDiv.innerHTML = imageDiv.innerHTML + "<div class=\"slide\"><img src=\"" + picJSON.hits[i].webformatURL + "\"></div>";-->
+<!--            }-->
+<!--        }-->
+
+<!--</script>-->
+<!--    <script src="searchscript.js"></script>-->
+<!--    <script-->
+<!--        src="https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&callback=addToDom&per_page=36&q=mountain&lang=en&orientation=horizontal"></script>-->
+
+<!-- jQuery first, then Metro UI JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+</body>
+
+</html>
