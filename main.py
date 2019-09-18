@@ -21,7 +21,7 @@ def index():
 
 def query_flickr(nouns):
     if nouns:
-        extras = 'url_n'
+        extras = 'url_c'
         query = " ".join(nouns)
         print("query= " + query)
 
@@ -31,7 +31,7 @@ def query_flickr(nouns):
 
         for i in range(0, max):
             try:
-                pics.append(results['photos']['photo'][i]['url_n'])
+                pics.append(results['photos']['photo'][i]['url_c'])
                 print(pics)
             except Exception as ex:
                 pass
