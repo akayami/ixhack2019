@@ -41,7 +41,8 @@ def handle_message_noun_phrases(message):
     
     tokenized = nltk.word_tokenize(txt)
     tagged = nltk.pos_tag(tokenized)
-    grammar = "NP: {<DT>?<JJ\w?>*<NN\w?>}"
+    grammar = "NP: {<DT>?<JJ.*|JJ.>*<NN\w?>}"
+    #{<NN.*|JJ>*<NN.*>}
     #grammar = "NP: {(<V\w+>|<NN\w?>)+.*<NN\w?>}"
     
     cp  = nltk.RegexpParser(grammar)
