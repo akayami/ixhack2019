@@ -88,24 +88,28 @@ def query_flickr(nouns):
 
 def query_pexels(nouns):
     # query = " ".join(nouns)
+    pics = []
     if nouns:
-        query = nouns[0]
-        link = "https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&per_page=36&q={}&lang=en&orientation=horizontal".format(
-            query)
-        contents = urllib.request.urlopen(link).read()
-        j = json.loads(contents.decode('utf-8'))
-        pics = []
-        for i in range(0, 16):
-            print(j['hits'][i]['largeImageURL'])
-            pics.append(j['hits'][i]['largeImageURL'])
-        return pics
+        for i in range(0, 3):
+            try:
+                query = nouns[i]
+                link = "https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&per_page=12&q={}&lang=en&orientation=horizontal".format(
+                    query)
+                contents = urllib.request.urlopen(link).read()
+                j = json.loads(contents.decode('utf-8'))
+                for i in range(0, 5):
+                    print(j['hits'][i]['largeImageURL'])
+                    pics.append(j['hits'][i]['largeImageURL'])
+            except Exception as ex:
+                pass
+    return pics
 
 
 @socketio.on('text')
 def handle_message(message):
-    # handle_message_noun_phrases(message)
-    # handle_message_nouns(message)
-    process_text(message)
+    handle_message_nouns(message)  # works with /test3
+    # handle_message_noun_phrases(message)      # Sasha
+    # process_text(message)  # Paul's stuff
 
 
 def process_text(text):
