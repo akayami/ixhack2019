@@ -25,6 +25,7 @@ flickr = FlickrAPI('c6a2c45591d4973ff525042472446ca2', '202ffe6f387ce29b', forma
 def index():
     return render_template('test1.html')
 
+
 def query_pixabay(nouns):
     if nouns:
         q = 3
@@ -32,13 +33,14 @@ def query_pixabay(nouns):
         if nNouns > 4:
             nNouns = 4
         pics = {}
-        for i in range(0,nNouns):
+        for i in range(0, nNouns):
             query = nouns[i]
-            url = 'https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&lang=en&orientation=horizontal&safesearch=true&per_page=' + str(q) + '&q=' + urllib.parse.quote(query)
+            url = 'https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&lang=en&orientation=horizontal&safesearch=true&per_page=' + str(
+                q) + '&q=' + urllib.parse.quote(query)
             response = requests.get(url)
             results = response.json()
             pics[query] = []
-            for j in range(0,q):
+            for j in range(0, q):
                 try:
                     picture = results['hits'][j]
                     pics[query].append(picture['webformatURL'])
@@ -47,6 +49,7 @@ def query_pixabay(nouns):
                     pass
         print(pics)
         return pics
+
 
 @app.route('/test3')
 def test3():
