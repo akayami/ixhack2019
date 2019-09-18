@@ -1,17 +1,43 @@
 var elementCount = 0;
 
 $(document).ready(async function(){
-	for (i = 0; i < 10; i++) {
-		// Random initial y coordinate between 0 and 80 % of view height
+
+	var f = document.getElementById('body');
+
+	var recognition = new webkitSpeechRecognition();
+	recognition.continuous = true;
+	recognition.interimResults = false;
+	//var output = document.getElementById('output');
+	recognition.onresult = function (event) {
+		var o = [];
+		for (var i = 0; i < event.results.length; i++) {
+			o.push(event.results[i][0].transcript);
+		}
+		var part = o.pop();
+		console.log(part);
+		f.append(generate(part));
+	};
+	recognition.start()
+});
+
+async function addToDom(picJSON) {
+//	console.log(picJSON)
+	for (var i = 0; i < (picJSON.hits.length >= 3 ? 3 : picJSON.hits.length); i++) {
 		var newY = parseInt(Math.random() * 8) * 10;
 		// Random height between 200 and 600
 		var newH = 200 + parseInt(Math.random() * 4) * 100;
 
-		var newElement = createImage(newY, newH, "https://s.abcnews.com/images/Lifestyle/puppy-ht-3-er-170907_4x3_992.jpg");
+		var newElement = createImage(newY, newH, picJSON.hits[i].webformatURL);
 		animateElement(newElement);
 		await sleep(1000);
 	}
-});
+}
+
+function generate(input) {
+	var e = document.createElement('script');
+	e.src = "https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&callback=addToDom&per_page=18&q=" + encodeURI(input) + "&lang=en&orientation=horizontal"
+	return e;
+}
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
