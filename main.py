@@ -7,8 +7,10 @@ import sys
 import timeit
 import urllib.request
 import json
+import settings
 
 logger = getlogger(__name__)
+settings = Settings
 
 app = Flask(__name__, template_folder='html/templates', static_folder='html/static')
 socketio = SocketIO(app)
@@ -74,8 +76,9 @@ def handle_message(message):
 
 def process_text(text):
     logger.info(text)
-    # TODO: process sentence to array of words
+    settings.parseText("text")
     socketio.emit('word_array', ['word1', 'word2'])
+    socketio.emit('settings', settings.getSettings())
 
 
 def handle_message_nouns(message):
