@@ -1,7 +1,11 @@
 var elementCount = 0;
 var textVisible = true;
 
+//var socket = io('http://localhost:5000');
+
 $(document).ready(async function(){
+
+    testget();
 
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
@@ -14,9 +18,16 @@ $(document).ready(async function(){
 		}
 		var part = o.pop();
 		//console.log(part);
-		generate(part);
+//		socket.emit("text", {data: part});
 	};
 	recognition.start()
+//	socket.on("word_array", function (arr) {
+//	    //TODO : process word array
+//        console.log(arr);
+//        generate(arr.join(' '));
+//    });
+
+//    socket.emit("text", {data: 'apple'});
 });
 
 function randomIntFromInterval(min, max) { // min and max included
@@ -169,4 +180,24 @@ function animateElement(id) {
 	$("#" + id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).remove();
 	});
+}
+
+function testget(text, cb) {
+	var xhr = new XMLHttpRequest();
+	xhr.open("GET", "http://localhost:5000/testget?text=12345", true);
+//	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.onreadystatechange = function () {
+		if (this.readyState != 4) return;
+
+		if (this.status == 200) {
+//			var data = JSON.parse(this.responseText);
+//			cb(null, data);
+			console.log(this.responseText);
+			// we get the returned data
+		} else {
+			cb(new Error('Error occured'));
+		}
+		// end of state change: it can be after some time (async)
+	};
+	xhr.send();
 }
