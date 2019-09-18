@@ -2,13 +2,13 @@ from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from logger import getlogger
+from settings import Settings
 import nltk
 from flickrapi import FlickrAPI
 import sys
 import timeit
 import urllib.request
 import json
-import settings
 
 logger = getlogger(__name__)
 settings = Settings
