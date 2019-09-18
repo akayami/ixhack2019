@@ -101,7 +101,7 @@ function pixabay1(text, cb) {
 }
 
 function pixabay(text, cb) {
-	console.log('Flicker input', text);
+	console.log('Pixabay input', text);
 	var url = "https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&callback=?&per_page=18&q=" + encodeURI(text) + "&lang=en&orientation=horizontal"
 	$.getJSON(url)
 		.done(function (data) {
