@@ -27,6 +27,11 @@ def test3():
     return render_template('test3.html')
 
 
+@app.route('/chuck')
+def chuck():
+    return render_template('chuck.html')
+
+
 def query_flickr(nouns):
     if nouns:
         extras = 'url_c'
