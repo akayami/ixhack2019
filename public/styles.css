@@ -1,120 +1,137 @@
+.container {
+	position: relative;
+	text-align: center;
+	color: white;
+}
+
+.text {
+	font-family: "Lucida Console", Monaco, monospace;
+	font-size: 40px;
+}
+
+.top-right {
+	position: absolute;
+	top: 8px;
+	right: 16px;
+}  
+
 .flier > * {
 	/* Adjust animation duration to change the element’s speed */
-		/* animation: fly 10s linear; */
-		top: 0;
-		left: 0;
-		transform: translateX(100vw);
-		position: fixed;
-		animation-delay: 1s;
-		z-index: 1;
-	}
+	/* animation: fly 10s linear; */
+	top: 0;
+	left: 0;
+	transform: translateX(100vw);
+	position: fixed;
+	animation-delay: 1s;
+	z-index: 1;
+}
 	
-	.movable0 {
-		animation: fly0 10s linear;
-	}
-	.movable10 {
-		animation: fly10 10s linear;
-	}
-	.movable20 {
-		animation: fly20 10s linear;
-	}
-	.movable30 {
-		animation: fly30 10s linear;
-	}
-	.movable40 {
-		animation: fly40 10s linear;
-	}
-	.movable50 {
-		animation: fly50 10s linear;
-	}
-	.movable60 {
-		animation: fly60 10s linear;
-	}
-	.movable70 {
-		animation: fly70 10s linear;
-	}
-	.movable80 {
-		animation: fly80 10s linear;
-	}
+.movable0 {
+	animation: fly0 10s linear;
+}
+.movable10 {
+	animation: fly10 10s linear;
+}
+.movable20 {
+	animation: fly20 10s linear;
+}
+.movable30 {
+	animation: fly30 10s linear;
+}
+.movable40 {
+	animation: fly40 10s linear;
+}
+.movable50 {
+	animation: fly50 10s linear;
+}
+.movable60 {
+	animation: fly60 10s linear;
+}
+.movable70 {
+	animation: fly70 10s linear;
+}
+.movable80 {
+	animation: fly80 10s linear;
+}
 	
-	@keyframes fly0 {
-		from {
-			display: block;
-			transform: translate(-100%, 0vh)
-		}
-		to {
-			transform: translate(100vw, 0vh)
-		}
+@keyframes fly0 {
+	from {
+		display: block;
+		transform: translate(-100%, 0vh)
 	}
-	@keyframes fly10 {
-		from {
-			display: block;
-			transform: translate(-100%, 10vh)
-		}
-		to {
-			transform: translate(100vw, 10vh)
-		}
+	to {
+		transform: translate(100vw, 0vh)
 	}
-	@keyframes fly20 {
-		from {
-			display: block;
-			transform: translate(-100%, 20vh)
-		}
-		to {
-			transform: translate(100vw, 20vh)
-		}
+}
+@keyframes fly10 {
+	from {
+		display: block;
+		transform: translate(-100%, 10vh)
 	}
-	@keyframes fly30 {
-		from {
-			display: block;
-			transform: translate(-100%, 30vh)
-		}
-		to {
-			transform: translate(100vw, 30vh)
-		}
+	to {
+		transform: translate(100vw, 10vh)
 	}
-	@keyframes fly40 {
-		from {
-			display: block;
-			transform: translate(-100%, 40vh)
-		}
-		to {
-			transform: translate(100vw, 40vh)
-		}
+}
+@keyframes fly20 {
+	from {
+		display: block;
+		transform: translate(-100%, 20vh)
 	}
-	@keyframes fly50 {
-		from {
-			display: block;
-			transform: translate(-100%, 50vh)
-		}
-		to {
-			transform: translate(100vw, 50vh)
-		}
+	to {
+		transform: translate(100vw, 20vh)
 	}
-	@keyframes fly60 {
-		from {
-			display: block;
-			transform: translate(-100%, 60vh)
-		}
-		to {
-			transform: translate(100vw, 60vh)
-		}
+}
+@keyframes fly30 {
+	from {
+		display: block;
+		transform: translate(-100%, 30vh)
 	}
-	@keyframes fly70 {
-		from {
-			display: block;
-			transform: translate(-100%, 70vh)
-		}
-		to {
-			transform: translate(100vw, 70vh)
-		}
+	to {
+		transform: translate(100vw, 30vh)
 	}
-	@keyframes fly80 {
-		from {
-			display: block;
-			transform: translate(-100%, 80vh)
-		}
-		to {
-			transform: translate(100vw, 80vh)
-		}
+}
+@keyframes fly40 {
+	from {
+		display: block;
+		transform: translate(-100%, 40vh)
 	}
+	to {
+		transform: translate(100vw, 40vh)
+	}
+}
+@keyframes fly50 {
+	from {
+		display: block;
+		transform: translate(-100%, 50vh)
+	}
+	to {
+		transform: translate(100vw, 50vh)
+	}
+}
+@keyframes fly60 {
+	from {
+		display: block;
+		transform: translate(-100%, 60vh)
+	}
+	to {
+		transform: translate(100vw, 60vh)
+	}
+}
+@keyframes fly70 {
+	from {
+		display: block;
+		transform: translate(-100%, 70vh)
+	}
+	to {
+		transform: translate(100vw, 70vh)
+	}
+}
+@keyframes fly80 {
+	from {
+		display: block;
+		transform: translate(-100%, 80vh)
+	}
+	to {
+		transform: translate(100vw, 80vh)
+	}
+}
