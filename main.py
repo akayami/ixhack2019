@@ -107,7 +107,7 @@ def handle_message(message):
 
 def process_text(text):
     logger.info(text)
-    settings.parseText("text")
+    settings.parseText(text)
     socketio.emit('word_array', ['word1', 'word2'])
     socketio.emit('settings', settings.getSettings())
 
