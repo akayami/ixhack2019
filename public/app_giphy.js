@@ -1,11 +1,7 @@
 var elementCount = 0;
 var textVisible = true;
 
-//var socket = io('http://localhost:5000');
-
 $(document).ready(async function(){
-
-    testget();
 
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
@@ -18,20 +14,13 @@ $(document).ready(async function(){
 		}
 		var part = o.pop();
 		//console.log(part);
-//		socket.emit("text", {data: part});
+		generate(part);
 	};
 	recognition.start()
-//	socket.on("word_array", function (arr) {
-//	    //TODO : process word array
-//        console.log(arr);
-//        generate(arr.join(' '));
-//    });
-
-//    socket.emit("text", {data: 'apple'});
 });
 
 function randomIntFromInterval(min, max) { // min and max included
-	return Math.floor(Math.random() * (max - min + 1) + min);
+	return Math.floor(Math.random() * (max - min) + min);
 }
 
 async function addToDom(list) {
@@ -58,9 +47,14 @@ function generate(input) {
 			flicker(input, (err, data) => {
 				resolve(parseFlicker(err, data));
 			});
+		}),
+		new Promise((resolve, reject) => {
+			giphy(input, (err, data) => {
+				resolve(parseGiphy(err, data));
+			});
 		})
 	]).then((values) => {
-//		console.log(values);
+		console.log("all results", values);
 		var all = [];
 		for(var i = 0; i < values.length; i++) {
 			//console.log(values[i]);
@@ -71,7 +65,8 @@ function generate(input) {
 			}
 		}
 		var output = [];
-		for(var p = 0; p < 3; p++) {
+		var limit = all.length >= 3 ? 3 : all.length;
+		for(var p = 0; p < limit; p++) {
 			output.push(all[randomIntFromInterval(0, all.length)]);
 		}
 		addToDom(output);
@@ -85,8 +80,8 @@ function generate(input) {
 }
 
 function parseFlicker(err, data) {
-	console.log('Flicker lookup is done');
-	console.log(data);
+	// console.log('Flicker lookup is done');
+	console.log("Flickr data", data);
 	let output = [];
 	for (var i = 0; i < data.items.length; i++) {
 		output.push({url: data.items[i].media.m});
@@ -96,9 +91,18 @@ function parseFlicker(err, data) {
 
 function parsePixabay(err, input) {
 	let output = [];
-	console.log(input);
+	console.log("Pixabay input", input);
 	for (var i = 0; i < input.hits.length; i++) {
 		output.push({url: input.hits[i].webformatURL});
+	}
+	return output;
+}
+
+function parseGiphy(err, input) {
+	let output = [];
+	console.log("Giphy request response", input);
+	for (var i = 0; i < input.data.length; i++) {
+		output.push({url: input.data[i].images.downsized.url});
 	}
 	return output;
 }
@@ -128,6 +132,16 @@ function flicker(text, cb) {
 		tagmode: "any",
 		format: "json"
 	})
+		.done(function (data) {
+			cb(null, data);
+		})
+}
+
+function giphy(text, cb) {
+	console.log('Giphy input', text);
+	var giphyAPIKey = "zIuz7wnC0wxLuIuyiLkLDDG2dJlH9yr1";
+	var giphyAPI = "https://api.giphy.com/v1/gifs/search?api_key=" + encodeURI(giphyAPIKey) + "&q=" + encodeURI(text) + "&limit=3&offset=0&rating=G&lang=en";
+	$.getJSON(giphyAPI)
 		.done(function (data) {
 			cb(null, data);
 		})
@@ -180,24 +194,4 @@ function animateElement(id) {
 	$("#" + id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).remove();
 	});
-}
-
-function testget(text, cb) {
-	var xhr = new XMLHttpRequest();
-	xhr.open("GET", "http://localhost:5000/testget?text=12345", true);
-//	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.onreadystatechange = function () {
-		if (this.readyState != 4) return;
-
-		if (this.status == 200) {
-//			var data = JSON.parse(this.responseText);
-//			cb(null, data);
-			console.log(this.responseText);
-			// we get the returned data
-		} else {
-			cb(new Error('Error occured'));
-		}
-		// end of state change: it can be after some time (async)
-	};
-	xhr.send();
 }

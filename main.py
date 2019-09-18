@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 from logger import getlogger
 import nltk
@@ -13,6 +14,7 @@ logger = getlogger(__name__)
 settings = Settings
 
 app = Flask(__name__, template_folder='html/templates', static_folder='html/static')
+
 socketio = SocketIO(app)
 app.debug = False
 
@@ -32,6 +34,13 @@ def test3():
 @app.route('/chuck')
 def chuck():
     return render_template('chuck.html')
+
+
+@app.route('/testget', methods=['GET'])
+def testget():
+    text = request.args.get('text')
+    print(text)
+    return ''
 
 
 def query_flickr(nouns):
