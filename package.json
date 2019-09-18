@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "@google-cloud/language": "^3.3.0",
+    "azure-cognitiveservices-imagesearch": "^2.0.0",
     "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "ms-rest-azure": "^3.0.0"
   },
   "scripts": {
     "start": "export GOOGLE_APPLICATION_CREDENTIALS=cred.json; node server.js"
