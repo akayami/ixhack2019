@@ -5,6 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- <meta name="metro4:init" content="false"> -->
 
     <!-- Metro 4 -->
     <style type="text/css">
@@ -12,6 +13,11 @@
             max-width: auto;
             max-height: 100%;
             text-align: center
+        }
+        div.absolute {
+            position: absolute;
+            bottom: 10px;
+            width: 50%;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
@@ -28,6 +34,7 @@
         We're getting paid for this?
     </h1>
 
+    <p>
     <div class="tiles-grid tiles-group size-8" data-group-title="">
         <div id="testImage0" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
         <div id="testImage1" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
@@ -43,12 +50,17 @@
         <div id="testImage11" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
 
     </div>
-    <br/>
-    <div id="output" style="color: red"></div>
-    <div id="nouns" style="color: red"></div>
-    <button onclick="recognition.start()">Start</button>
-    <button onclick="recognition.stop()">Stop</button>
-
+    </p>
+    <div class="absolute">
+        <p>
+        <div id="output" style="color: red"></div>
+        <div id="nouns" style="color: blue"></div>
+        </p>
+        <p>
+        <button onclick="recognition.start()">Start</button>
+        <button onclick="recognition.stop()">Stop</button>
+        </p>
+    </div> 
     <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     
     <script>
@@ -64,28 +76,30 @@
     
         // PICTURE CODE
         socket.on('pics', function (data) {
-            console.log(data);
-            console.log(data.length)
-            var i;
+            for (k = 0; k < 12; k++) {
+                var tileid = "testImage"+k;
+                var imageDiv = document.getElementById(tileid) 
+                imageDiv.innerHTML = '';
+            }
+
+            var i = 0;
             var j;
-            var pictures = data.length;
-            var tiles = 12;
-            var ppt = pictures/tiles;
-            for (i = 0; i < tiles; i++) {
-                loop = Math.min(ppt,pictures)
-                for (j = 0; j < loop; j++) {
-                    var offset = i+j;
+            Object.entries(data).forEach(([title, aPic]) => {
+                for (j = 0; j < aPic.length; j++) {
                     var tileid = "testImage"+i;
-                    console.log("DL " + tileid)
                     try {
                         var imageDiv = document.getElementById(tileid) 
-                        console.log(imageDiv)
-                        imageDiv.innerHTML = imageDiv.innerHTML + "<div class=\"slide\"><img src=\"" + data[offset] + "?" + new Date().getTime() + "\"></div>";
+                        imageDiv.innerHTML = imageDiv.innerHTML + "<div class=\"slide\"><img src=\"" + aPic[j] +"\"><span class=\"branding-bar\">"+title+"</span></div>";
+                        console.log(imageDiv.innerHTML)
                     }
                     catch(err) {}
-                    pictures--;
+                    i++;
                 }
-            }        
+                   
+            });
+            //loadDaFun()
+            //Metro.init()
+            Metro.reinitPluginAll()
         });
     
         var recognition = new webkitSpeechRecognition();
@@ -105,15 +119,19 @@
     
 
         };
-      
-    </script>
+        function loadDaFun() {
+            var date = new Date();
+            var timestamp = date.getTime();
+            var script = document.createElement('script');
+            script.src = 'https://cdn.metroui.org.ua/v4/js/metro.min.js?'+timestamp;
+            var body = document.getElementsByTagName("body")[0];
+            body.appendChild(script);
+        }
+    </script>   
 
-    <!-- <script src="https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&callback=addToDom&per_page=36&q=mountain&lang=en&orientation=horizontal"></script> -->
 
     <!-- jQuery first, then Metro UI JS -->
-    
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
 </body>
-
 </html>
