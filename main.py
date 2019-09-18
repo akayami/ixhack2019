@@ -3,9 +3,10 @@ from flask_socketio import SocketIO, emit
 from logger import getlogger
 import nltk
 from flickrapi import FlickrAPI
-import json
 import sys
 import timeit
+import urllib.request
+import json
 
 logger = getlogger(__name__)
 
@@ -31,7 +32,6 @@ def query_flickr(nouns):
         extras = 'url_c'
         query = " ".join(nouns)
         print("query= " + query)
-
         max = 9
         results = flickr.photos.search(text=query, per_page=max, extras=extras)
         pics = []
@@ -42,7 +42,21 @@ def query_flickr(nouns):
                 print(pics)
             except Exception as ex:
                 pass
+        return pics
 
+
+def query_pexels(nouns):
+    # query = " ".join(nouns)
+    if nouns:
+        query = nouns[0]
+        link = "https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&per_page=36&q={}&lang=en&orientation=horizontal".format(
+            query)
+        contents = urllib.request.urlopen(link).read()
+        j = json.loads(contents.decode('utf-8'))
+        pics = []
+        for i in range(0, 16):
+            print(j['hits'][i]['largeImageURL'])
+            pics.append(j['hits'][i]['largeImageURL'])
         return pics
 
 
@@ -60,7 +74,8 @@ def handle_message_nouns(message):
     nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
     socketio.emit('text', nouns)
 
-    pics = query_flickr(nouns)
+    # pics = query_flickr(nouns)
+    pics = query_pexels(nouns)
 
     if pics:
         socketio.emit('pics', pics)
@@ -95,5 +110,6 @@ def handle_json(json):
 
 if __name__ == '__main__':
     logger.debug("start")
+    query_pexels('')
     # socketio.run(app, host='10.51.104.226', debug=True)
     socketio.run(app, debug=False)
