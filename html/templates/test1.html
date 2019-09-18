@@ -17,6 +17,9 @@
 <h1>Imagefy</h1>
 
 <div id="output" style="color: red"></div>
+
+<div id="nouns" style="color: red"></div>
+
 <!--<div>-->
 
 	<button onclick="recognition.start()">Start</button>
@@ -33,6 +36,7 @@
 
     socket.on('text', function (data) {
     console.log(data);
+    document.getElementById('nouns').innerText = data.join(", ");
   });
 
 	var recognition = new webkitSpeechRecognition();

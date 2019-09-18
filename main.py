@@ -18,10 +18,10 @@ def index():
 @socketio.on('text')
 def handle_message(message):
     txt = message['data']
+    print(txt)
     is_noun = lambda pos: pos[:2] == 'NN'
     tokenized = nltk.word_tokenize(txt)
     nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
-    print(txt)
     print(nouns)
     socketio.emit('text', nouns)
 
@@ -33,4 +33,5 @@ def handle_json(json):
 
 if __name__ == '__main__':
     logger.debug("start")
+    # socketio.run(app, host='10.51.104.226', debug=True)
     socketio.run(app, debug=True)
