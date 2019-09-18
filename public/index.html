@@ -28,7 +28,7 @@
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
 	recognition.interimResults = false;
-	var output = document.getElementById('output');
+	//var output = document.getElementById('output');
 	recognition.onresult = function (event) {
 		var o = [];
 		for (var i = 0; i < event.results.length; i++) {

@@ -1,6 +1,5 @@
 var elementCount = 0;
-
-var state = {};
+var textVisible = true;
 
 $(document).ready(async function(){
 
@@ -31,7 +30,7 @@ async function addToDom(list) {
 		// Random height between 200 and 600
 		var newH = 200 + parseInt(Math.random() * 4) * 100;
 
-		var newElement = createImage(newY, newH, list[i].url);
+		var newElement = createImage(newY, newH, list[i].url, list[i].text);
 		animateElement(newElement);
 		await sleep(1000);
 	}
@@ -55,7 +54,9 @@ function generate(input) {
 		for(var i = 0; i < values.length; i++) {
 			//console.log(values[i]);
 			for(var z = 0; z < values[i].length; z++) {
-				all.push(values[i][z]);
+				var v = values[i][z];
+				v.text = input;
+				all.push(v);
 			}
 		}
 		var output = [];
@@ -125,26 +126,46 @@ function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function createImage(y, height, src) {
-	elementCount++;
+function changeTextMode(textMode) {
+	textVisible = textMode;
+
+	applyCurrentTextVisibility($('.text'));
+}
+
+function applyCurrentTextVisibility(element) {
+	if(textVisible) {
+		element.css("visibility", "visible");
+	} else {
+		element.css("visibility", "hidden");
+	}
+}
+
+function createImage(y, height, src, text) {
 	var newID = "thing" + elementCount;
 
-	var div = $('<div>');
+	var div = $('<div class="container movable' + y + '">');
 	div.attr("id", newID);
 	div.attr("z-index", elementCount);
-	div.appendTo("body");
+	div.appendTo("#parent");
 
-	var img = $('<img class="movable' + y + '">');
+	var textDiv = $('<div id="textDiv" class="text top-right">' + text + '</div>');
+	textDiv.attr("z-index", elementCount + 1);
+	textDiv.appendTo("#" + newID);
+	applyCurrentTextVisibility(textDiv);
+
+	var img = $('<img>');
 	img.attr('src', src);
 	img.attr("height", height);
 	img.appendTo("#" + newID);
+
+	elementCount += 2;
 
 	return newID;
 }
 
 function animateElement(id) {
-	$("#" + id).addClass("flier");
-
+	// $("#" + id).addClass("flier");
+  
 	$("#" + id).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function() {
 		$(this).remove();
 	});
