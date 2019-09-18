@@ -11,6 +11,7 @@
         img {
             max-width: auto;
             max-height: 100%;
+            text-align: center
         }
     </style>
     <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
@@ -78,18 +79,12 @@
 
 <body>
     <div class="tiles-grid tiles-group size-4" data-group-title="General">
-        <div id="testImage0" data-role="tile" data-size="small" data-effect="animate-slide-right"></div>
-        <div id="testImage1" data-role="tile" data-size="small" data-effect="animate-slide-up"></div>
-        <div id="testImage2" data-role="tile" data-size="small" class="col-1 row-2" data-effect="animate-slide-down">
-        </div>
-        <div id="testImage3" data-role="tile" data-size="small" class="col-2 row-2" data-effect="animate-slide-right">
-        </div>
-        <div id="testImage4" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
-        <div id="testImage5" data-role="tile" data-size="wide" data-effect="animate-slide-left"></div>
-        <div id="testImage6" data-role="tile" data-size="large" data-effect="animate-slide-up"></div>
-        <div id="testImage7" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
-        <div id="testImage8" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
-        <div id="testImage9" data-role="tile" data-size="wide" data-effect="animate-slide-left"></div>
+        <div id="testImage0" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
+        <div id="testImage1" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
+        <div id="testImage2" data-role="tile" data-size="large" data-effect="animate-slide-up"></div>
+        <div id="testImage3" data-role="tile" data-size="large" data-effect="animate-slide-left"></div>
+        <div id="testImage4" data-role="tile" data-size="medium" data-effect="animate-slide-right"></div>
+        <div id="testImage5" data-role="tile" data-size="medium" data-effect="animate-slide-down"></div>
     </div>
 
     <div class="dropdown">
@@ -129,17 +124,17 @@
         function addToDom(picJSON) {
             console.log(picJSON)
             for (var i = 0; i < picJSON.hits.length; i++) {
-                var element = Math.floor(i / 2).toString()
+                var element = Math.floor(i / 3).toString()
                 var id = "testImage" + element
-                var imageDiv = document.getElementById(id);
                 console.log(id)
-                imageDiv.innerHTML = imageDiv.innerHTML + "<div class=\"slide\"><img src=\"" + picJSON.hits[i].largeImageURL + "\"></div>";
+                var imageDiv = document.getElementById(id);
+                imageDiv.innerHTML = imageDiv.innerHTML + "<div class=\"slide\"><img src=\"" + picJSON.hits[i].webformatURL + "\"></div>";
             }
         }
     </script>
     <script src="searchscript.js"></script>
     <script
-        src="https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&callback=addToDom&per_page=20&q=green+pickle&lang=en"></script>
+        src="https://pixabay.com/api/?key=13658839-11ca33364dfe1124291ae842d&callback=addToDom&per_page=18&q=hotel&lang=en&orientation=horizontal"></script>
 
     <!-- jQuery first, then Metro UI JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
