@@ -35,14 +35,16 @@
     });
 
     socket.on('text', function (data) {
-    console.log(data);
-    document.getElementById('nouns').innerText = data.join(", ");
-  });
+    	console.log(data);
+    	document.getElementById('nouns').innerText = data;//.join(", ");
+  	});
 
 	var recognition = new webkitSpeechRecognition();
 	recognition.continuous = true;
 	recognition.interimResults = false;
+
 	var output = document.getElementById('output');
+
 	recognition.onresult = function (event) {
 		var o = [];
 		for (var i = 0; i < event.results.length; i++) {
