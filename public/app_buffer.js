@@ -2,6 +2,12 @@ var elementCount = 0;
 var textVisible = true;
 var nextHeight = 0;
 
+// add any memes here
+var memeList = {
+	"sun": "https://media.giphy.com/media/bihnwWzmlYHN6/giphy.gif",
+	"fine": "https://static01.nyt.com/images/2016/08/05/us/05onfire1_xp/05onfire1_xp-jumbo-v2.jpg",
+};
+
 $(document).ready(async function(){
 	// var list = [];
 	// for (var i = 0; i < 3; i++) {
@@ -99,6 +105,11 @@ async function addToDom(list) {
 function generate(input) {
 	Promise.all([
 		new Promise((resolve, reject) => {
+			memes(input, (err, data) => {
+				resolve(parseMemes(err, data));
+			});
+		}),
+		new Promise((resolve, reject) => {
 			pixabay(input, (err, data) => {
 				resolve(parsePixabay(err, data));
 			});
@@ -116,18 +127,27 @@ function generate(input) {
 	]).then((values) => {
 		console.log("all results", values);
 		var all = [];
+		var hardCodes = 0;
 		for(var i = 0; i < values.length; i++) {
 			//console.log(values[i]);
 			for(var z = 0; z < values[i].length; z++) {
 				var v = values[i][z];
-				v.text = input;
+				if (i == 0) {
+					hardCodes++;
+				} else {
+					v.text = input;
+				}
 				all.push(v);
 			}
 		}
 		var output = [];
-		var limit = all.length >= 3 ? 3 : all.length;
-		for(var p = 0; p < limit; p++) {
-			output.push(all[randomIntFromInterval(0, all.length)]);
+		for(var p = 0; p < all.length; p++) {
+			if (hardCodes > 0) {
+				output.push(all[p]);
+				hardCodes--;
+			} else {
+				output.push(all[randomIntFromInterval(0, all.length)]);
+			}
 		}
 		console.log('length', output);
 		addToDom(output);
@@ -164,6 +184,14 @@ function parseGiphy(err, input) {
 	console.log("Giphy request response", input);
 	for (var i = 0; i < input.data.length; i++) {
 		output.push({url: input.data[i].images.downsized.url});
+	}
+	return output;
+}
+
+function parseMemes(err, input) {
+	let output = [];
+	for (var i = 0; i < input.length; i++) {
+		output.push(input[i]);
 	}
 	return output;
 }
@@ -206,6 +234,17 @@ function giphy(text, cb) {
 		.done(function (data) {
 			cb(null, data);
 		})
+}
+
+function memes(text, cb) {
+	console.log('Meme input', text);
+	var result = [];
+	for (var meme in memeList) {
+		if (meme == text) {
+			result.push({url: memeList[meme], text: meme});
+		}
+	}
+	cb(null, result);
 }
 
 function sleep(ms) {
