@@ -1,7 +1,16 @@
 var elementCount = 0;
 var textVisible = true;
+var nextHeight = 0;
 
 $(document).ready(async function(){
+	// var list = [];
+	// for (var i = 0; i < 3; i++) {
+	// 	list.push({url: "https://media1.giphy.com/media/3o6ZtaO9BZHcOjmErm/giphy.gif", text: "puppy gif" + i});
+	// }
+	// for (var i = 0; i < 15; i++) {
+	// 	addToDom(list);
+	// 	await sleep(2000);
+	// }
 
 	var buffer = [];
 	var timeout = 3000;
@@ -69,15 +78,21 @@ function randomIntFromInterval(min, max) { // min and max included
 }
 
 async function addToDom(list) {
-//	console.log(picJSON)
+	// console.log(picJSON)
 	for (var i = 0; i < (list.length >= 3 ? 3 : list.length); i++) {
-		var newY = parseInt(Math.random() * 8) * 10;
 		// Random height between 200 and 600
-		var newH = 200 + parseInt(Math.random() * 4) * 100;
+		// var newH = 200 + parseInt(Math.random() * 4) * 100;
+		var newH = (10 + parseInt(Math.random() * 6) * 10); // between 10 and 60
+		console.log("This time, the y is: " + nextHeight + ", and the height will be: " + newH);
 
-		var newElement = createImage(newY, newH, list[i].url, list[i].text);
+		var newElement = createImage(nextHeight, newH, list[i].url, list[i].text);
+		nextHeight += newH;
+
+		if (nextHeight >= 100) {
+			nextHeight = 0;
+		}
+
 		animateElement(newElement);
-		await sleep(1000);
 	}
 }
 
@@ -211,10 +226,10 @@ function applyCurrentTextVisibility(element) {
 	}
 }
 
-function createImage(y, height, src, text) {
+function createImage(yPercentage, heightPercentage, src, text) {
 	var newID = "thing" + elementCount;
 
-	var div = $('<div class="container movable' + y + '">');
+	var div = $('<div class="container movable' + yPercentage + '">');
 	div.attr("id", newID);
 	div.attr("z-index", elementCount);
 	div.appendTo("#parent");
@@ -226,6 +241,8 @@ function createImage(y, height, src, text) {
 
 	var img = $('<img>');
 	img.attr('src', src);
+
+	var height = heightPercentage / 100.0 * $( window ).height();
 	img.attr("height", height);
 	img.appendTo("#" + newID);
 
