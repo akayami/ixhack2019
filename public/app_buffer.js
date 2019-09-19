@@ -86,9 +86,9 @@ async function addToDom(list) {
 		console.log("This time, the y is: " + nextHeight + ", and the height will be: " + newH);
 
 		var newElement = createImage(nextHeight, newH, list[i].url, list[i].text);
-		nextHeight += newH;
+		nextHeight += (newH - (parseInt(Math.random() * 5))); // up to 5% overlap allowed
 
-		if (nextHeight >= 100) {
+		if (nextHeight >= 90) {
 			nextHeight = 0;
 		}
 
