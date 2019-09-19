@@ -102,8 +102,6 @@ def query_pexels(nouns):
 @socketio.on('text')
 def handle_message(message):
     handle_message_noun_phrases(message)
-    # handle_message_nouns(message)
-    # process_text(message)
 
 
 def process_text(text):
@@ -135,11 +133,12 @@ def handle_message_noun_phrases(message):
 
     tokenized = nltk.word_tokenize(txt)
     tagged = nltk.pos_tag(tokenized)
-    # grammar = "NP: {<DT>?<JJ.*|JJ.>*<NN\w?>}"
-    grammar = """
-       NP: {<DT>?<JJ.*|JJ.>*<NN\w?>+}
-       {<JJ\w?>*<NN\w?><CC>*<NN\w?>+}
-   """
+    print(tagged)
+    grammar = "NP: {<DT>?<JJ.*|JJ.>*<NN\w?>}"
+    #grammar = """
+    #   NP: {<DT>?<JJ.*|JJ.>*<NN\w?>+}
+    #   {<JJ\w?>*<NN\w?><CC>*<NN\w?>+}
+    #"""
 
     cp = nltk.RegexpParser(grammar)
     parsed = cp.parse(tagged)

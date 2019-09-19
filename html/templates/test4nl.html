@@ -31,7 +31,7 @@
 
 <body>
     <h1>
-        We're getting paid for this?
+        Wij krijgen hiervoor betaald??
     </h1>
 
     <p>
@@ -103,8 +103,11 @@
         });
     
         var recognition = new webkitSpeechRecognition();
+        
         recognition.continuous = true;
-        recognition.interimResults = true;
+        recognition.interimResults = false;
+        recognition.lang = "nl-NL";
+
         var output = document.getElementById('output');
         recognition.onresult = function (event) {
             var o = [];
