@@ -73,7 +73,7 @@ function naturalLanguage(text, cb) {
 }
 
 
-function randomIntFromInterval(min, max) { // min and max included
+function randomIntFromInterval(min, max) { // min included, max excluded
 	return Math.floor(Math.random() * (max - min) + min);
 }
 
