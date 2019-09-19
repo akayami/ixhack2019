@@ -15,10 +15,32 @@ settings = Settings
 
 app = Flask(__name__, template_folder='html/templates', static_folder='html/static')
 
+CORS(app)
+
 socketio = SocketIO(app)
 app.debug = False
 
 flickr = FlickrAPI('c6a2c45591d4973ff525042472446ca2', '202ffe6f387ce29b', format='parsed-json')
+
+
+@app.route('/nltk', methods=['POST'])
+def nltk_process():
+    if request.method == 'POST':
+        text = (request.json['text'])
+
+        # nltk plugin, final processing of sentence goes below
+        result = process_sentence(text)
+        # result = process_sentence_denis(text)
+
+        print(result)
+        return json.dumps(result)
+
+
+def process_sentence(text):
+    is_noun = lambda pos: pos[:2] == 'NN'
+    tokenized = nltk.word_tokenize(str(text))
+    nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
+    return nouns
 
 
 @app.route('/')

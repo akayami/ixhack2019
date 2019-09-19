@@ -22,6 +22,11 @@ $(document).ready(async function(){
 	};
 	recognition.start();
 
+    naturalLanguage('some test', (err, res) => {
+        if(err) console.error(err);
+        console.log(res);
+    })
+
 	setInterval(() => {
 		var block = [];
 		while(buffer.length > 0) {
