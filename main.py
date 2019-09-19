@@ -25,22 +25,42 @@ flickr = FlickrAPI('c6a2c45591d4973ff525042472446ca2', '202ffe6f387ce29b', forma
 
 @app.route('/nltk', methods=['POST'])
 def nltk_process():
+    ''' Entry point for Natural Language Processing
+        Use process_nouns(..) as template
+        returns array[string]
+    '''
+
     if request.method == 'POST':
         text = (request.json['text'])
 
-        # nltk plugin, final processing of sentence goes below
-        result = process_sentence(text)
-        # result = process_sentence_denis(text)
+        print("IN: {}".format(text))
 
-        print(result)
+        # NLP PLUGIN: use process_nouns(..) function as example and modify, then plug-in below
+        result = process_nouns(text)  # extract nouns; can add other functions to extract adjectives, phrases etc
+
+        # Clean-up result
+        result = remove_duplicates(result)  # remove duplicate words
+        result = [r for r in result if len(r) > 2]  # remove words shorter than 2 chars
+
+        print("OUT: [{}]".format(",".join(result)))
+
+        # NLP done, return array[string]
         return json.dumps(result)
 
 
-def process_sentence(text):
+def process_nouns(text):
+    ''' Template function for NLTK, copy, rename and add your changes,
+        NN stands for NOUN in nltk
+        must return array[string] '''
+
     is_noun = lambda pos: pos[:2] == 'NN'
     tokenized = nltk.word_tokenize(str(text))
     nouns = [word for (word, pos) in nltk.pos_tag(tokenized) if is_noun(pos)]
     return nouns
+
+
+def remove_duplicates(data):
+    return list(dict.fromkeys(data))
 
 
 @app.route('/')
@@ -157,7 +177,8 @@ def handle_message_nouns(message):
 
 
 def handle_message_noun_phrases(message):
-    txt = message['data']
+    # txt = message['data']
+    txt = message
     print(txt)
     begin_time = timeit.timeit()
 
@@ -171,11 +192,13 @@ def handle_message_noun_phrases(message):
     noun_phrases_list = [' '.join(leaf[0] for leaf in tree.leaves())
                          for tree in parsed.subtrees()
                          if tree.label() == 'NP']
-    print(noun_phrases_list)
-    end_time = timeit.timeit()
-    print(end_time - begin_time)
-    sys.stdout.flush()
-    socketio.emit('text', noun_phrases_list)
+
+    return noun_phrases_list
+    # print(noun_phrases_list)
+    # end_time = timeit.timeit()
+    # print(end_time - begin_time)
+    # sys.stdout.flush()
+    # socketio.emit('text', noun_phrases_list)
 
 
 @socketio.on('json')
