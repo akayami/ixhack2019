@@ -15,7 +15,7 @@ logger = getlogger(__name__)
 # settings = Settings
 
 app = Flask(__name__, template_folder='html/templates', static_folder='html/static')
-
+CORS(app)
 socketio = SocketIO(app)
 app.debug = False
 
@@ -102,6 +102,8 @@ def query_pexels(nouns):
 @socketio.on('text')
 def handle_message(message):
     handle_message_noun_phrases(message)
+    # handle_message_nouns(message)
+    # process_text(message)
 
 
 def process_text(text):
@@ -133,12 +135,11 @@ def handle_message_noun_phrases(message):
 
     tokenized = nltk.word_tokenize(txt)
     tagged = nltk.pos_tag(tokenized)
-    print(tagged)
-    grammar = "NP: {<DT>?<JJ.*|JJ.>*<NN\w?>}"
-    #grammar = """
-    #   NP: {<DT>?<JJ.*|JJ.>*<NN\w?>+}
-    #   {<JJ\w?>*<NN\w?><CC>*<NN\w?>+}
-    #"""
+    # grammar = "NP: {<DT>?<JJ.*|JJ.>*<NN\w?>}"
+    grammar = """
+       NP: {<DT>?<JJ.*|JJ.>*<NN\w?>+}
+       {<JJ\w?>*<NN\w?><CC>*<NN\w?>+}
+   """
 
     cp = nltk.RegexpParser(grammar)
     parsed = cp.parse(tagged)
@@ -165,4 +166,4 @@ if __name__ == '__main__':
     logger.debug("start")
     query_pexels('')
     # socketio.run(app, host='10.51.104.226', debug=True)
-    socketio.run(app, debug=False)
+    socketio.run(app, debug=False, port=8051)

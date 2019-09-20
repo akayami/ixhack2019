@@ -19,7 +19,7 @@ pos_tag = bitagger.tag
 logger = getlogger(__name__)
 
 app = Flask(__name__, template_folder='html/templates', static_folder='html/static')
-
+CORS(app)
 socketio = SocketIO(app)
 app.debug = False
 
